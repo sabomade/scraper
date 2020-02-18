@@ -4,23 +4,48 @@ var mongojs = require("mongojs");
 // Require axios and cheerio. This makes the scraping possible
 var axios = require("axios");
 var cheerio = require("cheerio");
+var exphbs = require("express-handlebars");
+var mongoose = require("mongoose");
 
 // Initialize Express
 var app = express();
+var PORT = process.env.PORT || 3000;
 
 // Database configuration
 var dbUrl = "scraper";
 var collections = ["onion", "beauty"];
 
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Static directory
+app.use(express.static("public"));
+
+//set up handlebars
+// app.engine(
+//   "handlebars",
+//   exphbs({ defaultLayout: "main"})
+// );
+// app.set("view engine", "handlebars");
+
+//connect to Mongodb
+const db = require("./config/keys").mongoURI;
+
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
+
 //Hook for mongojs
-var db = mongojs(dbUrl, collections);
-db.on("error", function(error) {
-  console.log("Database Error:", error);
-});
+// var db = mongojs(dbUrl, collections);
+// db.on("error", function(error) {
+//   console.log("Database Error:", error);
+// });
 
 //Main route
 app.get("/", function(req, res) {
-  res.send("Hello World - you'll see scraped articles here");
+  res.send("Hello World");
 });
 
 //Retrieve data from DB
@@ -79,10 +104,10 @@ app.get("/scrape", function(req, res) {
       }
     });
   });
-  res.send("scrape complete");
+  res.send();
 });
 
 //listen on port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(PORT, function() {
+  console.log("App running on port", PORT);
 });

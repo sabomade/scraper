@@ -1,0 +1,36 @@
+.jumbotron {
+  background-image: url(img/makeup.jpg);
+  background-size: cover;
+  height: 250px;
+  text-align: center;
+  color: white;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "News Cycle", sans-serif;
+}
+h1 {
+  font-size: 100px;
+  text-shadow: 2px 2px black;
+}
+p {
+  font-family: "Open Sans", sans-serif;
+}
+button {
+  margin: 0px 10px 10px 0px;
+}
+.card-body {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.card-body img {
+  margin-right: 20px;
+}
+.text {
+  display: flex;
+  flex-flow: column nowrap;
+}

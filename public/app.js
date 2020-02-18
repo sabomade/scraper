@@ -1,20 +1,17 @@
 // We'll be rewriting the table's data frequently, so let's make our code more DRY
-// by writing a function that takes in 'animals' (JSON) and creates a table body
-function displayResults(animals) {
+// by writing a function that takes in 'beauty' (JSON) and creates a table body
+function displayResults(beauty) {
+  console.log("display running");
   // First, empty the table
   $("tbody").empty();
-
   // Then, for each entry of that json...
-  animals.forEach(function(animal) {
+  beauty.forEach(function(tip) {
     // Append each of the animal's properties to the table
     var tr = $("<tr>").append(
-      $("<td>").text(animal.name),
-      $("<td>").text(animal.numLegs),
-      $("<td>").text(animal.class),
-      $("<td>").text(animal.weight),
-      $("<td>").text(animal.whatIWouldReallyCallIt)
+      $("<td>").text(tip.date),
+      $("<td>").text(tip.title),
+      $("<td>").text(tip.author)
     );
-
     $("tbody").append(tr);
   });
 }
@@ -29,8 +26,8 @@ function setActive(selector) {
 // 1: On Load
 // ==========
 
-// First thing: ask the back end for json with all animals
-$.getJSON("/all", function(data) {
+// First thing: ask the back end for json with all beauty articles
+$.getJSON("/all", function(req, res) {
   // Call our function to generate a table body
   displayResults(data);
 });
@@ -39,24 +36,24 @@ $.getJSON("/all", function(data) {
 // ======================
 
 // When user clicks the weight sort button, display table sorted by weight
-$("#weight-sort").on("click", function() {
+$("#date-sort").on("click", function() {
   // Set new column as currently-sorted (active)
-  setActive("#animal-weight");
+  setActive("#beauty-date");
 
   // Do an api call to the back end for json with all animals sorted by weight
-  $.getJSON("/weight", function(data) {
+  $.getJSON("/date", function(data) {
     // Call our function to generate a table body
     displayResults(data);
   });
 });
 
 // When user clicks the name sort button, display the table sorted by name
-$("#name-sort").on("click", function() {
+$("#author-sort").on("click", function() {
   // Set new column as currently-sorted (active)
-  setActive("#animal-name");
+  setActive("#beauty-author");
 
   // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/name", function(data) {
+  $.getJSON("/author", function(data) {
     // Call our function to generate a table body
     displayResults(data);
   });

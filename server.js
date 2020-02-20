@@ -11,10 +11,6 @@ var mongoose = require("mongoose");
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-// Database configuration
-var dbUrl = "scraper";
-var collections = ["onion", "beauty"];
-
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -23,25 +19,26 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //set up handlebars
-// app.engine(
-//   "handlebars",
-//   exphbs({ defaultLayout: "main"})
-// );
-// app.set("view engine", "handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 //connect to Mongodb
-const db = require("./config/keys").mongoURI;
+// const db = require("./config/keys").mongoURI;
 
-mongoose
-  .connect(db, { useNewUrlParser: true })
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+// mongoose
+//   .connect(db, { useNewUrlParser: true })
+//   .then(() => console.log("MongoDB Connected"))
+//   .catch(err => console.log(err));
+
+// Database configuration
+var dbUrl = "scraper";
+var collections = ["onion", "beauty"];
 
 //Hook for mongojs
-// var db = mongojs(dbUrl, collections);
-// db.on("error", function(error) {
-//   console.log("Database Error:", error);
-// });
+var db = mongojs(dbUrl, collections);
+db.on("error", function(error) {
+  console.log("Database Error:", error);
+});
 
 //Main route
 app.get("/", function(req, res) {
@@ -98,13 +95,33 @@ app.get("/scrape", function(req, res) {
               console.log(err);
             } else {
               console.log(inserted);
+              res.json(inserted);
             }
           }
         );
       }
     });
   });
-  res.send();
+});
+
+app.get("/date", function(req, res) {
+  db.beauty.find().sort({ date: 1 }, function(err, found) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
+});
+
+app.get("/author", function(req, res) {
+  db.beauty.find().sort({ author: 1 }, function(err, found) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
 });
 
 //listen on port 3000

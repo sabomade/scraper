@@ -1,0 +1,16 @@
+<div class="jumbotron jumbotron-fluid">
+    <h1>Article Scraper</h1>
+</div>
+<div class="container">
+
+    <button type="button" class="btn btn-info" id="by-date">By Date</button>
+    <button type="button" class="btn btn-info" id="by-author">
+        By Author
+    </button>
+    <button type="button" class="btn btn-info" id="new-articles">
+        Scrape New Beauty Articles
+    </button>
+    {{#each makeup}}
+    {{> beauty-block}}
+    {{/each}}
+</div>

@@ -27,7 +27,7 @@ function setActive(selector) {
 // ==========
 
 // First thing: ask the back end for json with all beauty articles
-$.getJSON("/all", function(req, res) {
+$.getJSON("/all", function(data) {
   // Call our function to generate a table body
   displayResults(data);
 });
@@ -54,6 +54,17 @@ $("#author-sort").on("click", function() {
 
   // Do an api call to the back end for json with all animals sorted by name
   $.getJSON("/author", function(data) {
+    // Call our function to generate a table body
+    displayResults(data);
+  });
+});
+
+// When user clicks the scrape new articles button, update table with new articles if any
+$("#scrape-now").on("click", function() {
+  // Set new column as currently-sorted (active)
+
+  // Do an api call to the back end for json with all animals sorted by name
+  $.getJSON("/scrape", function(data) {
     // Call our function to generate a table body
     displayResults(data);
   });

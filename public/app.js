@@ -27,7 +27,8 @@ function setActive(selector) {
 // ==========
 
 // First thing: ask the back end for json with all beauty articles
-$.getJSON("/all", function(data) {
+//`/all`
+$.getJSON("/", function(data) {
   // Call our function to generate a table body
   displayResults(data);
 });

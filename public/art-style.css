@@ -5,6 +5,15 @@
   text-align: center;
   color: white;
 }
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.sort {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 10px;
+}
 h1,
 h2,
 h3,
@@ -16,6 +25,8 @@ h6 {
 h1 {
   font-size: 100px;
   text-shadow: 2px 2px black;
+  text-align: center;
+  margin: auto;
 }
 p {
   font-family: "Open Sans", sans-serif;
@@ -37,4 +48,10 @@ button {
 .active {
   color: #ee6e73;
   font-weight: 300;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  grid-gap: 10px;
+  padding: 10px;
 }

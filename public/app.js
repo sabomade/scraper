@@ -2,18 +2,48 @@
 // by writing a function that takes in 'beauty' (JSON) and creates a table body
 function displayResults(beauty) {
   console.log("display running");
-  // First, empty the table
-  $("tbody").empty();
-  // Then, for each entry of that json...
+
+  // <div class="card">
+  //   <div class="card-body">
+  //     <div class="text">
+  //       <h4 class="card-title">
+  //         <a href="{{link}}">{{ title }}</a>
+  //       </h4>
+  //       <p class="card-text">{{ description }}</p>
+  //     </div>
+  //   </div>
+  // </div>;
+
+  $("#article-parent").empty();
   beauty.forEach(function(tip) {
-    // Append each of the animal's properties to the table
-    var tr = $("<tr>").append(
-      $("<td>").text(tip.date),
-      $("<td>").text(tip.title),
-      $("<td>").text(tip.author)
-    );
-    $("tbody").append(tr);
+    var card = $("<div>").addClass("card");
+    var cardBody = $("<div>").addClass("card-body");
+    var cardText = $("<div>").addClass("text");
+    var title = $("<h4>")
+      .addClass("card-title")
+      .text(tip.title)
+      .attr("href", tip.link);
+    var pTag = $("<p>")
+      .addClass("card-text")
+      .text(tip.description);
+    cardText.append(title, pTag);
+    cardBody.append(cardText);
+    card.append(cardBody);
+    $("#article-parent").append(card);
   });
+
+  // First, empty the table
+  // $("tbody").empty();
+  // // Then, for each entry of that json...
+  // beauty.forEach(function(tip) {
+  //   // Append each of the animal's properties to the table
+  //   var tr = $("<tr>").append(
+  //     $("<td>").text(tip.date),
+  //     $("<td>").text(tip.title),
+  //     $("<td>").text(tip.author)
+  //   );
+  //   $("tbody").append(tr);
+  // });
 }
 
 // Bonus function to change "active" header
@@ -61,12 +91,23 @@ $("#author-sort").on("click", function() {
 });
 
 // When user clicks the scrape new articles button, update table with new articles if any
-$("#scrape-now").on("click", function() {
+$("#scrape-beauty").on("click", function() {
   // Set new column as currently-sorted (active)
 
   // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/scrape", function(data) {
+  $.getJSON("/scrape-beauty", function() {
     // Call our function to generate a table body
+    // displayResults(data);
+    //location.reload();
+  });
+});
+
+// When user clicks the scrape new articles button, update table with new articles if any
+$("#scrape-onion").on("click", function() {
+  // Do an api call to the back end for json with all animals sorted by name
+  $.getJSON("/scrape-onion", function(data) {
+    console.log(data);
     displayResults(data);
+    // location.reload();
   });
 });

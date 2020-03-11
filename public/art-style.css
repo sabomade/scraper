@@ -1,4 +1,21 @@
+body {
+  background: url(img/news.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: scroll;
+}
+.onion {
+  background-image: url(img/onion.jpg);
+  background-size: cover;
+  height: 250px;
+  text-align: center;
+  color: white;
+}
 .jumbotron {
+  background: transparent;
+  color: white;
+}
+.beauty {
   background-image: url(img/makeup.jpg);
   background-size: cover;
   height: 250px;
@@ -13,6 +30,7 @@
   display: flex;
   flex-flow: row nowrap;
   margin: 10px;
+  justify-content: center;
 }
 h1,
 h2,

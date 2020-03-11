@@ -2,27 +2,12 @@
     <h1>Article Scraper</h1>
 </div>
 <div class="container">
+    {{!-- onion scrape --}}
     <div class="sort">
-        <button type="button" class="btn btn-info" id="by-date">By Date</button>
-        <button type="button" class="btn btn-info" id="by-author">
-            By Author
-        </button>
-        <button type="button" class="btn btn-info" id="scrape-now">
+        <button type="button" class="btn btn-info" id="scrape-beauty">
             Scrape New Beauty Articles
+        </button><button type="button" class="btn btn-info" id="scrape-onion">
+            Scrape New Onion Articles
         </button>
-    </div>
-
-    <div class="grid-container">
-        {{#each blogPost}}
-        <div class="card">
-            <div class="card-body">
-                <div class="text">
-                    <h4 class="card-title"><a href="#">{{title}}</a></h4>
-                    <p class="card-text">{{date}}</p>
-                    <p class="card-text">{{author}}</p>
-                </div>
-            </div>
-        </div>
-        {{/each}}
     </div>
 </div>

@@ -36,41 +36,13 @@ app.set("view engine", "handlebars");
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
 
-// Database configuration
-// var dbUrl = "scraper";
-// var collections = ["onion", "beauty"];
-
-//Hook for mongojs
-// var db = mongojs(dbUrl, collections);
-// db.on("error", function(error) {
-//   console.log("Database Error:", error);
-// });
-
-//Main route
-// app.get("/", function(req, res) {
-//   res.send("Hello World");
-// });
-
 //Retrieve data from DB /all
 app.get("/", function(req, res) {
-  db.BeautyArticle.find({})
-    .then(function(found) {
-      console.log("inital page load", found);
-      //res.json(found);
-      var hbsObj = {
-        blogPost: found
-      };
-      console.log("hbsObj", hbsObj);
-      res.render("index", hbsObj);
-    })
-    .catch(function(err) {
-      //console.log("err", err);
-      res.json(err);
-    });
+  res.render("articles");
 });
 
 //Scrape data from a site & save in mongo db
-app.get("/scrape", function(req, res) {
+app.get("/scrape-beauty", function(req, res) {
   axios.get("https://sokoglam.com/blogs/news").then(async function(response) {
     var $ = cheerio.load(response.data);
     //article class
@@ -110,8 +82,8 @@ app.get("/scrape", function(req, res) {
                 .then(function(inserted) {
                   console.log("new articles found and added to db", inserted);
 
-                  // res.render("index", { blogPost: inserted });
-                  res.json(inserted);
+                  res.render("kblog", { blogPost: inserted });
+                  // res.json(inserted);
                 })
                 .catch(function(err) {
                   console.log(err);
@@ -124,6 +96,66 @@ app.get("/scrape", function(req, res) {
       }
     });
     //res.status(200).finish();
+  });
+});
+
+//Scrape data from a site & save in mongo db
+app.get("/scrape-onion", function(req, res) {
+  axios.get("https://www.theonion.com/").then(async function(response) {
+    var $ = cheerio.load(response.data);
+    //article class
+    await $(".fwjlmD").each(
+      function(i, element) {
+        //push each inserted item into array to send to DOM
+        var resultArr = [];
+        //save an empty result object
+        var result = {};
+
+        //add link, title, date, & author of current element to result obj
+        result.link = $(this).attr("href");
+        result.title = $(this)
+          .children("h4")
+          .text();
+        result.description = $(this)
+          .children("p")
+          .text();
+
+        //if all were found
+        if (result.link && result.title && result.description) {
+          // console.log("result", result);
+
+          // check if results already exist in db, only insert if they don't exist
+          db.OnionArticle.findOne({ link: result.link })
+            .then(function(found) {
+              //if not in db, add to db & render to DOM
+              if (!found) {
+                db.OnionArticle.create(result)
+                  .then(function(inserted) {
+                    // console.log("new articles found and added to db", inserted);
+                    resultArr.push(inserted);
+                    // res.json(inserted);
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+              }
+            })
+            .catch(function(err) {
+              res.json(err);
+            });
+        }
+      },
+      function() {
+        db.OnionArticle.find({}, function(error, found) {
+          if (error) {
+            console.log("error", error);
+          } else {
+            res.json(found);
+          }
+        });
+      }
+    );
+    // res.status(200).finish();
   });
 });
 

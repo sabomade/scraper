@@ -1,4 +1,63 @@
-.active {
-  color: #ee6e73;
-  font-weight: 300;
+body {
+  background: url(img/news.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: scroll;
+}
+.onion {
+  background-image: url(img/onion.jpg);
+  background-size: cover;
+  height: 250px;
+  text-align: center;
+  color: white;
+}
+.jumbotron {
+  background: transparent;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "News Cycle", sans-serif;
+}
+h1 {
+  font-size: 100px;
+  text-shadow: 2px 2px black;
+  text-align: center;
+  margin: auto;
+}
+p {
+  font-family: "Open Sans", sans-serif;
+}
+button {
+  margin: 0px 10px 10px 0px;
+}
+.card {
+  margin: 5px 0px;
+}
+.card-body {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.card-body img {
+  margin-right: 20px;
+}
+.text {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  grid-gap: 10px;
+  padding: 10px;
 }

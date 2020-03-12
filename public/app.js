@@ -1,113 +1,53 @@
 // We'll be rewriting the table's data frequently, so let's make our code more DRY
 // by writing a function that takes in 'beauty' (JSON) and creates a table body
-function displayResults(beauty) {
-  console.log("display running");
-
-  // <div class="card">
-  //   <div class="card-body">
-  //     <div class="text">
-  //       <h4 class="card-title">
-  //         <a href="{{link}}">{{ title }}</a>
-  //       </h4>
-  //       <p class="card-text">{{ description }}</p>
-  //     </div>
-  //   </div>
-  // </div>;
+function displayResults(onion) {
+  // console.log("display running");
 
   $("#article-parent").empty();
-  beauty.forEach(function(tip) {
+  onion.forEach(function(tip) {
     var card = $("<div>").addClass("card");
     var cardBody = $("<div>").addClass("card-body");
     var cardText = $("<div>").addClass("text");
     var title = $("<h4>")
       .addClass("card-title")
-      .text(tip.title)
-      .attr("href", tip.link);
+      .text(tip.title);
+    var aTag = $("<a>").attr("href", tip.link);
     var pTag = $("<p>")
       .addClass("card-text")
       .text(tip.description);
-    cardText.append(title, pTag);
+    aTag.append(title);
+    cardText.append(aTag, pTag);
     cardBody.append(cardText);
     card.append(cardBody);
     $("#article-parent").append(card);
   });
-
-  // First, empty the table
-  // $("tbody").empty();
-  // // Then, for each entry of that json...
-  // beauty.forEach(function(tip) {
-  //   // Append each of the animal's properties to the table
-  //   var tr = $("<tr>").append(
-  //     $("<td>").text(tip.date),
-  //     $("<td>").text(tip.title),
-  //     $("<td>").text(tip.author)
-  //   );
-  //   $("tbody").append(tr);
-  // });
-}
-
-// Bonus function to change "active" header
-function setActive(selector) {
-  // remove and apply 'active' class to distinguish which column we sorted by
-  $("th").removeClass("active");
-  $(selector).addClass("active");
 }
 
 // 1: On Load
 // ==========
-
-// First thing: ask the back end for json with all beauty articles
-//`/all`
-$.getJSON("/", function(data) {
-  // Call our function to generate a table body
-  displayResults(data);
-});
+// First thing: ask the back end for json with all articles
+// $.getJSON("/", function(data) {
+//   // Call our function to generate a table body
+//   displayResults(data);
+// });
 
 // 2: Button Interactions
 // ======================
-
-// When user clicks the weight sort button, display table sorted by weight
-$("#date-sort").on("click", function() {
-  // Set new column as currently-sorted (active)
-  setActive("#beauty-date");
-
-  // Do an api call to the back end for json with all animals sorted by weight
-  $.getJSON("/date", function(data) {
-    // Call our function to generate a table body
+// When user clicks the scrape new articles button, update table with new articles if any
+$("#scrape-onion").on("click", function() {
+  // Do an api call to the back end for json with all animals sorted by name
+  $.getJSON("/getonion", function(data) {
+    // console.log(data);
     displayResults(data);
+    // location.reload();
   });
 });
 
 // When user clicks the name sort button, display the table sorted by name
-$("#author-sort").on("click", function() {
-  // Set new column as currently-sorted (active)
-  setActive("#beauty-author");
-
+$("#saved-articles").on("click", function() {
   // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/author", function(data) {
-    // Call our function to generate a table body
-    displayResults(data);
-  });
-});
-
-// When user clicks the scrape new articles button, update table with new articles if any
-$("#scrape-beauty").on("click", function() {
-  // Set new column as currently-sorted (active)
-
-  // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/scrape-beauty", function() {
-    // Call our function to generate a table body
-    // displayResults(data);
-    //location.reload();
-  });
-});
-
-// When user clicks the scrape new articles button, update table with new articles if any
-$("#scrape-onion").on("click", function() {
-  // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/scrape-onion", function(data) {
-    console.log(data);
-    displayResults(data);
-    // location.reload();
-  });
+  // $.getJSON("/author", function(data) {
+  //   // Call our function to generate a table body
+  //   displayResults(data);
+  // });
 });

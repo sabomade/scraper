@@ -21,7 +21,8 @@
       href="https://fonts.googleapis.com/css?family=News+Cycle|Open+Sans&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="art-style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery.js"></script>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -37,36 +38,19 @@
 
     <!-- page content -->
     <div class="container">
-      <!-- buttons for sorting -->
-      <button type="button" class="btn btn-info" id="by-date">By Date</button>
-      <button type="button" class="btn btn-info" id="by-author">
-        By Author
+      <!-- buttons -->
+      <button type="button" class="btn btn-info" id="scrape-onion">
+        Scrape Articles
       </button>
-      <button type="button" class="btn btn-info" id="new-articles">
-        Scrape New Beauty Articles
+      <button type="button" class="btn btn-info" id="saved-articles">
+        Saved Articles
       </button>
 
       <!-- each article gets put inside a card: article-block.handlebars-->
-      <div id="article-parent">
-        <!-- <div class="card">
-        <div class="card-body">
-          <img src="https://via.placeholder.com/150" />
-          <div class="text">
-            <h4 class="card-title"><a href="#">Article Title</a></h4>
-            <p class="card-text">Article Date</p>
-            <p class="card-text">Article Author</p>
-          </div>
-        </div>
-      </div> -->
-      </div>
+      <div id="article-parent"></div>
       <!-- end container -->
     </div>
-    <script src=""></script>
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
+    <script src="app.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

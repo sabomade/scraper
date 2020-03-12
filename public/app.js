@@ -25,8 +25,8 @@ function displayResults(onion) {
 
 // 1: On Load
 // ==========
-// First thing: ask the back end for json with all articles
-$.getJSON("/getonion", function(data) {
+// First thing: ask the back end for json with all saved articles
+$.getJSON("/saved", function(data) {
   console.log("displaying saved articles");
   displayResults(data);
 });
@@ -36,7 +36,6 @@ $.getJSON("/getonion", function(data) {
 // When user clicks the scrape new articles button, update table with new articles if any
 $("#scrape-onion").on("click", function() {
   console.log("just scraped new articles, deleting any not previously saved.");
-  // Do an api call to the back end for json with all animals sorted by name
   $.get("/scrape-onion").then(
     $.getJSON("/getonion", function(data) {
       displayResults(data);
@@ -46,9 +45,7 @@ $("#scrape-onion").on("click", function() {
 
 // When user clicks the name sort button, display the table sorted by name
 $("#saved-articles").on("click", function() {
-  // Do an api call to the back end for json with all animals sorted by name
-  // $.getJSON("/author", function(data) {
-  //   // Call our function to generate a table body
-  //   displayResults(data);
-  // });
+  $.getJSON("/saved", function(data) {
+    displayResults(data);
+  });
 });

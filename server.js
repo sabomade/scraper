@@ -77,6 +77,16 @@ app.get("/getonion", function(req, res) {
   });
 });
 
+app.get("/saved", function(req, res) {
+  db.OnionArticle.find({ saved: true }).exec(function(err, found) {
+    if (err) {
+      console.log("err", err);
+    } else {
+      res.json(found);
+    }
+  });
+});
+
 //listen on port 3000
 app.listen(PORT, function() {
   console.log("App running on port", PORT);

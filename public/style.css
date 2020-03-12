@@ -18,6 +18,12 @@ body {
 
 .container {
   display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  margin: auto;
+}
+.scrape {
+  display: flex;
   flex-flow: column nowrap;
 }
 

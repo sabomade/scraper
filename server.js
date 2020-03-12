@@ -32,74 +32,49 @@ app.get("/", function(req, res) {
 
 //Scrape data from a site & save in mongo db
 app.get("/scrape-onion", function(req, res) {
+  //remove any articles that were not saved in the previous scrape
+  db.OnionArticle.find({ saved: false }).remove();
+
+  //scrape articles
   axios.get("https://www.theonion.com/").then(async function(response) {
     var $ = cheerio.load(response.data);
+
     //article class
-    await $(".fwjlmD").each(
-      function(i, element) {
-        //push each inserted item into array to send to DOM
-        var resultArr = [];
-        //save an empty result object
-        var result = {};
+    await $(".fwjlmD").each(function(i, element) {
+      //save an empty result object
+      var result = {};
+      //add link, title, date, & author of current element to result obj
+      result.link = $(this).attr("href");
+      result.title = $(this)
+        .children("h4")
+        .text();
+      result.description = $(this)
+        .children("p")
+        .text();
 
-        //add link, title, date, & author of current element to result obj
-        result.link = $(this).attr("href");
-        result.title = $(this)
-          .children("h4")
-          .text();
-        result.description = $(this)
-          .children("p")
-          .text();
-
-        //if all were found
-        if (result.link && result.title && result.description) {
-          // console.log("result", result);
-
-          // check if results already exist in db, only insert if they don't exist
-          db.OnionArticle.findOne({ link: result.link })
-            .then(function(found) {
-              //if not in db, add to db & render to DOM
-              if (!found) {
-                db.OnionArticle.create(result)
-                  .then(function(inserted) {
-                    // console.log("new articles found and added to db", inserted);
-                    resultArr.push(inserted);
-                    // res.json(inserted);
-                  })
-                  .catch(function(err) {
-                    console.log(err);
-                  });
-              }
-            })
-            .catch(function(err) {
-              res.json(err);
-            });
-        }
-      },
-      function() {
-        db.OnionArticle.find({}, function(error, found) {
-          if (error) {
-            console.log("error", error);
-          } else {
-            // console.log(found);
-            res.json(found);
-          }
-        });
+      //if all were found
+      if (result.link && result.title && result.description) {
+        // console.log("result", result);
+        db.OnionArticle.create(result)
+          .then(function(inserted) {
+            // console.log("new articles found and added to db", inserted);
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
       }
-    );
+    });
   });
 });
 
 app.get("/getonion", function(req, res) {
-  db.OnionArticle.find({})
-    .sort({ title: 1 })
-    .exec(function(err, found) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(found);
-      }
-    });
+  db.OnionArticle.find({}).exec(function(err, found) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
 });
 
 //listen on port 3000

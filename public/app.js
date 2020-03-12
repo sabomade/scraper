@@ -26,21 +26,22 @@ function displayResults(onion) {
 // 1: On Load
 // ==========
 // First thing: ask the back end for json with all articles
-// $.getJSON("/", function(data) {
-//   // Call our function to generate a table body
-//   displayResults(data);
-// });
+$.getJSON("/getonion", function(data) {
+  console.log("displaying saved articles");
+  displayResults(data);
+});
 
 // 2: Button Interactions
 // ======================
 // When user clicks the scrape new articles button, update table with new articles if any
 $("#scrape-onion").on("click", function() {
+  console.log("just scraped new articles, deleting any not previously saved.");
   // Do an api call to the back end for json with all animals sorted by name
-  $.getJSON("/getonion", function(data) {
-    // console.log(data);
-    displayResults(data);
-    // location.reload();
-  });
+  $.get("/scrape-onion").then(
+    $.getJSON("/getonion", function(data) {
+      displayResults(data);
+    })
+  );
 });
 
 // When user clicks the name sort button, display the table sorted by name

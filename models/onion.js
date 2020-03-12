@@ -13,7 +13,15 @@ var OnionSchema = new Schema({
   // `title` must be of type String
   title: String,
   // `description` must be of type String
-  description: String
+  description: String,
+  saved: {
+    type: Boolean,
+    default: false
+  },
+  note: {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
+  }
 });
 
 // This creates our model from the above schema, using mongoose's model method
